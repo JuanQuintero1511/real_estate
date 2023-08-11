@@ -1,4 +1,4 @@
-const newContac = (req, res) => {
+export const newContac = (req, res) => {
 
     let newContact = {name, letsName, phone, comment};
 
