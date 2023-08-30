@@ -1,12 +1,11 @@
-const { Router } = require('express');
-const { newContact } = require('../../handlers/Contact/contactHandler');
+const express = require('express');
+const Router = express.Router();
+const app = express();
+const { createHandlerContac } = require ('../../handlers/Contact/contactHandler');
 
-const contacRouter = Router();
+const router = Router();
+// Ruta para crear un nuevo contacto (POST /contact)
+router.post('/', createHandlerContac);
 
-contacRouter.post( "/", newContact );
-
-
-module.exports = {
-    contacRouter
-}
+module.exports = router;
 

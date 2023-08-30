@@ -1,17 +1,24 @@
-const express = require('express');
-const router = express.Router();
-const { createNewContact, getContactById, updateContact, deleteContact } = require('../../handlers/Contact/contactHandler');
+const { Contact } = require('../../routes/models/contactModel');
 
-// Ruta para crear un nuevo contacto
-router.post('/create', async (req, res) => {
+// Controlador para crear un nuevo contacto
+const createContact = async (req, res) => {
+    const { name, letsName, phone, comment } = req.body;
+
     try {
-        const { name, letsName, phone, comment } = req.body;
-        const newContact = await createNewContact(name, letsName, phone, comment);
-        res.status(201).json(newContact);
+        // Validación de campos
+        if (!name || !letsName || !phone || !comment) {
+            return res.status(400).json({ error: 'Todos los campos son requeridos.' });
+        }
+
+        // Creación de un nuevo contacto en la base de datos (usando Sequelize)
+        const newContact = await Contact.create({ name, letsName, phone, comment });
+        
+        return res.status(201).json(newContact);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
-});
+};
+
 
 // Ruta para obtener un contacto por ID
 router.get('/:id', async (req, res) => {
@@ -47,4 +54,6 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-module.exports = router;
+module.exports = { 
+    createContact
+};
