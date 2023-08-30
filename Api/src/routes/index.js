@@ -1,7 +1,7 @@
 const { Router } = require ('express');
-const contacRouter = require ('../routes/contactRouter/contactRouter');
+const { router } = require ('../controllers/contactController/contactController');
 
 
 const router = Router();
-router.use ('/contact', contacRouter);
+router.use ('/contact', router);
 
